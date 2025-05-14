@@ -19,7 +19,7 @@ switch ($method) {
             'path' => '/',
             'secure' => true,
             'httponly' => true,
-            'samesite' => 'Lax'
+            'samesite' => 'none'
         ]);
 
         echo json_encode(["success" => true, "message" => "Logged out"]);
