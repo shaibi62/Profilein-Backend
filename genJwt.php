@@ -19,7 +19,7 @@ function genJwt($id, $email) {
         'path' => '/',
         'secure' => false,
         'httponly' => true,
-        'samesite' => 'none'
+        'samesite' => 'LAX'
     ]);
 
     return $jwt;

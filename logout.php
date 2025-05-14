@@ -17,9 +17,9 @@ switch ($method) {
         setcookie('access_token', '', [
             'expires' => time() - 3600,
             'path' => '/',
-            'secure' => true,
+            'secure' => false,
             'httponly' => true,
-            'samesite' => 'none'
+            'samesite' => 'LAX'
         ]);
 
         echo json_encode(["success" => true, "message" => "Logged out"]);
