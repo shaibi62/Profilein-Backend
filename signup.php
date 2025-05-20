@@ -53,7 +53,7 @@ switch ($method) {
                 $stmt->execute();
                 $result = $stmt->get_result();
                 if ($user = $result->fetch_assoc()) {                
-                    genJwt($user['User_ID'], $user['Email']);
+                    genJwt($user['User_ID'], $user['Name'], $user['Email']);
                     echo json_encode(["success" => true, "message" => "User created successfully"]);
                 } else {
                     echo json_encode([

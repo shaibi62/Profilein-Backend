@@ -35,7 +35,7 @@
             if ($user = $result->fetch_assoc()) {
                 // Email found, now verify password
                 if (password_verify($pass, $user['Password'])) {
-                    if(genJwt($user['User_ID'], $user['Email'])){
+                    if(genJwt($user['User_ID'], $user['Name'], $user['Email'])){
                     echo json_encode([
                         "success" => true,
                         "message" => $user['Name'] . " Welcome to ProfileIn",

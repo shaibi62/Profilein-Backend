@@ -25,7 +25,9 @@
                 "success" => true,
                 "user" => [
                     "id" => $decoded->id,
+                    "name" => $decoded->name,
                     "email" => $decoded->email
+
                 ]
             ]);
         } catch (Exception $e) {
