@@ -6,9 +6,9 @@ $data = json_decode(file_get_contents("php://input"));
 
 $title = $data->title;
 $category = $data->category;
-$description = $data->feature1;
-$description = $data->feature2;
-$description = $data->feature3;
+$feature1= $data->feature1;
+$feature2 = $data->feature2;
+$feature3= $data->feature3;
 $imageUrl = $data->imageUrl;
 
 

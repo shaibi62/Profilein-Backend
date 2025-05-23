@@ -10,7 +10,7 @@ if (
     isset($data['Feature1']) &&
     isset($data['Feature2']) &&
     isset($data['Feature3']) &&
-    isset($data['ImageUrl']) 
+    isset($data['Image']) 
 ) {
     $id = intval($data['Template_ID']);
     $title = mysqli_real_escape_string($conn, $data['Title']);
@@ -18,16 +18,16 @@ if (
     $feature1 = mysqli_real_escape_string($conn, $data['Feature1']);
     $feature2 = mysqli_real_escape_string($conn, $data['Feature2']);
     $feature3 = mysqli_real_escape_string($conn, $data['Feature3']);
-    $imageUrl = mysqli_real_escape_string($conn, $data['ImageUrl']);
+    $imageUrl = mysqli_real_escape_string($conn, $data['Image']);
 
 
-    $query = "UPDATE templates SET 
+    $query = "UPDATE template SET 
         Title = '$title',
         Category = '$category',
         Feature1= '$feature1',
         Feature2= '$feature2',
         Feature3= '$feature3',
-        ImageUrl = '$imageUrl',
+        Image = '$imageUrl'
         
         WHERE Template_ID = $id";
 
