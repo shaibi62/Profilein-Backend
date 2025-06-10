@@ -26,7 +26,7 @@
             }
 
             // Look up user by email
-            $sql = "SELECT * FROM user WHERE Email = ?";
+            $sql = "SELECT * FROM tbluser WHERE Email = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("s", $email);
             $stmt->execute();
@@ -35,7 +35,7 @@
             if ($user = $result->fetch_assoc()) {
                 // Email found, now verify password
                 if (password_verify($pass, $user['Password'])) {
-                    if(genJwt($user['User_ID'], $user['Name'], $user['Email'])){
+                    if(genJwt($user['usrId'], $user['Name'], $user['Email'])){
                     echo json_encode([
                         "success" => true,
                         "message" => $user['Name'] . " Welcome to ProfileIn",

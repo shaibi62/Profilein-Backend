@@ -4,7 +4,7 @@ include 'origins.php';
 include 'dbConnect.php';// get_users.php
 
 
-$sql = "SELECT Template_ID, Title, Category FROM template";
+$sql = "SELECT tmpId, Title, Category FROM tbltemplate";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {

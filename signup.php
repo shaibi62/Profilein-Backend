@@ -39,7 +39,7 @@ switch ($method) {
             $pass = password_hash($passRaw, PASSWORD_DEFAULT);
 
             // Prepare and execute insert query
-            $sql = "INSERT INTO user (Name, Email, Password) VALUES (?, ?, ?)";
+            $sql = "INSERT INTO tbluser (Name, Email, Password) VALUES (?, ?, ?)";
             $stmt = $conn->prepare($sql);
             if (!$stmt) {
                 throw new Exception("Failed to prepare SQL statement: " . $conn->error);
@@ -47,13 +47,13 @@ switch ($method) {
             $stmt->bind_param("sss", $name, $email, $pass);
 
             if ($stmt->execute()) {
-                $sql = "SELECT * FROM user WHERE Email = ?";
+                $sql = "SELECT * FROM tbluser WHERE Email = ?";
                 $stmt = $conn->prepare($sql);
                 $stmt->bind_param("s", $email);
                 $stmt->execute();
                 $result = $stmt->get_result();
                 if ($user = $result->fetch_assoc()) {                
-                    genJwt($user['User_ID'], $user['Name'], $user['Email']);
+                    genJwt($user['usrId'], $user['Name'], $user['Email']);
                     echo json_encode(["success" => true, "message" => "User created successfully"]);
                 } else {
                     echo json_encode([

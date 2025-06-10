@@ -7,7 +7,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 switch ($method) {
     case 'GET':
-        $sql = "SELECT * FROM template";
+        $sql = "SELECT * FROM tbltemplate";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
             $templates = [];

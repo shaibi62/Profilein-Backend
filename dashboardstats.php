@@ -6,11 +6,11 @@ include 'dbConnect.php';
 
 
 // Fetch total users
-$userResult = $conn->query("SELECT COUNT(*) as totalUsers FROM user");
+$userResult = $conn->query("SELECT COUNT(*) as totalUsers FROM tbluser");
 $userData = $userResult->fetch_assoc();
 
 // Fetch total templates
-$templateResult = $conn->query("SELECT COUNT(*) as totalTemplates FROM template");
+$templateResult = $conn->query("SELECT COUNT(*) as totalTemplates FROM tbltemplate");
 $templateData = $templateResult->fetch_assoc();
 
 echo json_encode([

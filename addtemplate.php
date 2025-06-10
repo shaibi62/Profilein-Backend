@@ -169,7 +169,7 @@ try {
     rmdir($tempExtractDir);
 
     // Insert into database
-    $stmt = $conn->prepare("INSERT INTO template (Title, Category, Feature1, Feature2, Feature3, Image) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO tbltemplate (Title, Category, Feature1, Feature2, Feature3, Image) VALUES (?, ?, ?, ?, ?, ?)");
     if (!$stmt) {
         throw new Exception("DB prepare failed: " . $conn->error);
     }

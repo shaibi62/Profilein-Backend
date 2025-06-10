@@ -1,6 +1,6 @@
 <?php
     $server = 'localhost';
-    $dbname = 'dbProfilein';
+    $dbname = 'profilein';
     $user = 'root';
     $password = '';
 

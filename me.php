@@ -2,7 +2,8 @@
     require_once __DIR__ . '/vendor/autoload.php';
 
      include 'origins.php';
-     
+    $jwtID = null;
+    $jwtEMAIL = NULL; 
     if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
         http_response_code(200);
         exit;
@@ -21,13 +22,15 @@
         try {
             $secretKey = 'ZHS@FYP!SECURITY!';
             $decoded = JWT::decode($token, new Key($secretKey, 'HS256'));
+                 $jwtEMAIL = $decoded->email;
+                    $jwtID = $decoded->id;
             echo json_encode([
                 "success" => true,
                 "user" => [
                     "id" => $decoded->id,
                     "name" => $decoded->name,
-                    "email" => $decoded->email
-
+                    "email" => $decoded->email,
+               
                 ]
             ]);
         } catch (Exception $e) {

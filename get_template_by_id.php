@@ -4,7 +4,7 @@ include 'dbConnect.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
     $id = intval($_GET['id']);
-    $query = "SELECT * FROM template WHERE Template_ID = $id";
+    $query = "SELECT * FROM tbltemplate WHERE tmpId = $id";
     $result = mysqli_query($conn, $query);
 
     if ($result && mysqli_num_rows($result) === 1) {

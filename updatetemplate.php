@@ -4,7 +4,7 @@ include 'dbConnect.php';
 $data = json_decode(file_get_contents('php://input'), true);
 
 if (
-    isset($data['Template_ID']) &&
+    isset($data['tmpId']) &&
     isset($data['Title']) &&
     isset($data['Category']) &&
     isset($data['Feature1']) &&
@@ -12,7 +12,7 @@ if (
     isset($data['Feature3']) &&
     isset($data['Image']) 
 ) {
-    $id = intval($data['Template_ID']);
+    $id = intval($data['tmpId']);
     $title = mysqli_real_escape_string($conn, $data['Title']);
     $category = mysqli_real_escape_string($conn, $data['Category']);
     $feature1 = mysqli_real_escape_string($conn, $data['Feature1']);
@@ -21,7 +21,7 @@ if (
     $imageUrl = mysqli_real_escape_string($conn, $data['Image']);
 
 
-    $query = "UPDATE template SET 
+    $query = "UPDATE tbltemplate SET 
         Title = '$title',
         Category = '$category',
         Feature1= '$feature1',
@@ -29,7 +29,7 @@ if (
         Feature3= '$feature3',
         Image = '$imageUrl'
         
-        WHERE Template_ID = $id";
+        WHERE tmpId = $id";
 
     if (mysqli_query($conn, $query)) {
         echo json_encode(['success' => true]);
