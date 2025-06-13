@@ -46,7 +46,7 @@ try {
     $profilePicPath = '';
     $fileName = '';
     if (!empty($_FILES['profilePic']['name'])) {
-        $uploadDir = 'C:/Users/dell/Desktop/ProfileIn/public/uploads/profile_pics/';
+        $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/frontend/public/uploads/Profile_Pics';
         if (!file_exists($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
