@@ -4,13 +4,12 @@ use \Firebase\JWT\JWT;
 use \Firebase\JWT\Key;
 require_once __DIR__ . '/vendor/autoload.php';
 
-function genJwt($id,$name , $email, $role) {
+function genJwt($id,$name , $email) {
     $secretKey = 'ZHS@FYP!SECURITY!';
     $payload = [
         'id' => $id,
         'name' => $name,
         'email' => $email,
-        'role' => $role, 
         'exp' => time() + (60 * 60 * 24 * 7)  // 7 days
     ];
 
