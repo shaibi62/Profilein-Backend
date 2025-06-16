@@ -29,12 +29,16 @@ try {
     $education = isset($_POST['education']) ? json_decode($_POST['education'], true) : [];
     $certifications = isset($_POST['certifications']) ? json_decode($_POST['certifications'], true) : [];
     $skills = isset($_POST['skills']) ? json_decode($_POST['skills'], true) : [];
+    $jobs = isset($_POST['jobs']) ? json_decode($_POST['jobs'], true) : [];
+    $services = isset($_POST['services']) ? json_decode($_POST['services'], true) : [];
     $projects = isset($_POST['projects']) ? json_decode($_POST['projects'], true) : [];
 
     // Convert to empty array if null
     $education = $education ?: [];
     $certifications = $certifications ?: [];
     $skills = $skills ?: [];
+    $jobs = $jobs ?: [];
+    $services = $services ?: [];
     $projects = $projects ?: [];
 
     // Validate required fields
@@ -186,6 +190,65 @@ try {
         }
     }
 
+     // 3. Insert jobs records
+    foreach ($jobs as $job) {
+        $title = $job['title'] ?? '';
+        $company = $job['institution'] ?? '';
+        $description = $job['description'] ?? '';
+        $startdate = $job['startdate'] ?? '';
+        $enddate = $job['enddate'] ?? '';
+        
+        if (!empty($title)) {
+            $stmt = $conn->prepare("INSERT INTO tbljob 
+                                  (usrId, Title, Company,Description, startDate, endDate) 
+                                  VALUES (?, ?, ?, ?, ?, ?)");
+            if (!$stmt) {
+                throw new Exception("tblCertification Prepare failed: " . $conn->error);
+            }
+            
+            $startdate = !empty($startdate) ? date('Y-m-d', strtotime($startdate)) : null;
+            $enddate = !empty($enddate) ? date('Y-m-d', strtotime($enddate)) : null;
+            
+            $stmt->bind_param("ssssss",
+                $userId,
+                $title,
+                $company,
+                $description,
+                $startdate,
+                $enddate
+            );
+            if (!$stmt->execute()) {
+                throw new Exception("Execute failed: " . $stmt->error);
+            }
+        }
+    }
+
+    // 3. Insert services records
+    foreach ($services as $serv) {
+        $title = $serv['title'] ?? '';
+        $description = $serv['description'] ?? '';
+        
+        if (!empty($title)) {
+            $stmt = $conn->prepare("INSERT INTO tblservice 
+                                  (usrId, Title, Description) 
+                                  VALUES (?, ?, ?)");
+            if (!$stmt) {
+                throw new Exception("tblservice Prepare failed: " . $conn->error);
+            }
+            
+            
+            $stmt->bind_param("sss",
+                $userId,
+                $title,
+                $description
+            );
+            if (!$stmt->execute()) {
+                throw new Exception("Execute failed: " . $stmt->error);
+            }
+        }
+    }
+
+   
     // 5. Insert projects records
     foreach ($projects as $project) {
         $title = $project['title'] ?? '';

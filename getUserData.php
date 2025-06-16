@@ -26,11 +26,13 @@ try {
             'education' => [],
             'certifications' => [],
             'skills' => [],
+            'jobs' => [],
+            'services' => [],
             'projects' => []
         ];
 
         // 1. Get personal info
-        $query = "SELECT `infoId`, `usrId`, `Name`, `Email`, `Phone`, `Address`, `Profession`, `Tagline` FROM `tblpersonalinfo` WHERE usrId = ?";
+        $query = "SELECT `Name`, `Email`, `Phone`, `Address`, `Profession`, `Tagline` FROM `tblpersonalinfo` WHERE usrId = ?";
         $stmt = $conn->prepare($query);
         if (!$stmt) {
             throw new Exception("Prepare failed for personal info: " . $conn->error);
@@ -99,6 +101,41 @@ try {
         $result = $stmt->get_result();
         while ($row = $result->fetch_assoc()) {
             $userData['skills'][] = $row;
+        }
+        $stmt->close();
+
+                // 4. Get skills records
+        $query = "SELECT * FROM tbljob WHERE usrId = ?";
+        $stmt = $conn->prepare($query);
+        if (!$stmt) {
+            throw new Exception("Prepare failed for tbljob: " . $conn->error);
+        }
+        
+        $stmt->bind_param("s", $userId);
+        if (!$stmt->execute()) {
+            throw new Exception("Execute failed for tbljob: " . $stmt->error);
+        }
+        
+        $result = $stmt->get_result();
+        while ($row = $result->fetch_assoc()) {
+            $userData['jobs'][] = $row;
+        }
+        $stmt->close();
+        // 4. Get skills records
+        $query = "SELECT * FROM tblservice WHERE usrId = ?";
+        $stmt = $conn->prepare($query);
+        if (!$stmt) {
+            throw new Exception("Prepare failed for tblservice: " . $conn->error);
+        }
+        
+        $stmt->bind_param("s", $userId);
+        if (!$stmt->execute()) {
+            throw new Exception("Execute failed for tblservice: " . $stmt->error);
+        }
+        
+        $result = $stmt->get_result();
+        while ($row = $result->fetch_assoc()) {
+            $userData['services'][] = $row;
         }
         $stmt->close();
 
