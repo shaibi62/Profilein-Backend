@@ -50,7 +50,7 @@ try {
     $profilePicPath = '';
     $fileName = '';
     if (!empty($_FILES['profilePic']['name'])) {
-        $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/frontend/public/uploads/Profile_Pics';
+        $uploadDir = 'http://localhost/frontend/public/uploads/Profile_Pics/';
         if (!file_exists($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
@@ -97,7 +97,7 @@ try {
         $address,
         $profession,
         $tagline,
-        $fileName
+        $profilePicPath
     );
     
     if (!$bindResult) {
