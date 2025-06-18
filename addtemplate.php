@@ -12,10 +12,10 @@ ini_set('post_max_size', '20M');
 ini_set('max_execution_time', '300');
 
 // Update this if frontend public folder is moved
-$frontendPublicPath = 'C:/xampp/htdocs/frontend/public/uploads/';
+$frontendPublicPath = 'C:/xampp/htdocs/Profilein-Backenduploads/';
 $templatesBasePath = $frontendPublicPath . 'templates/';
 $imagesBasePath = $frontendPublicPath . 'images/';
-$baseURL = 'http://localhost/frontend/public/uploads';
+$baseURL = 'http://localhost/Profilein-Backend/uploads';
 
 function sanitizeFolderName($string) {
     $string = trim($string);

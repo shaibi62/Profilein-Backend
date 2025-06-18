@@ -20,7 +20,7 @@ function injectData($userId, $tempId) {
     $stmt->close();
 
     $templatePath = $BaseURL . "index.html";
-    $outputDir = $_SERVER['DOCUMENT_ROOT'] . "/frontend/public/uploads/output/";
+    $outputDir = $_SERVER['DOCUMENT_ROOT'] . "/Profilein-Backend/uploads/output/";
 
     // Fetch dynamic data
     $personal = fetchData($conn, "SELECT * FROM tblPersonalInfo WHERE usrId = ?", $userId)[0] ?? [];
@@ -202,7 +202,7 @@ foreach($projects as $proj)
 
     return [
         'success' => true,
-        'output_file' => "http://localhost/frontend/public/uploads/output/$fileName"
+        'output_file' => "http://localhost/Profilein-Backend/uploads/output/$fileName"
     ];
 }
 
