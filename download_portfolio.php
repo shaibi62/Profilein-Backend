@@ -5,7 +5,7 @@ if (!isset($_GET['file'])) {
 }
 
 $filename = basename($_GET['file']); // Sanitize input
-$filePath = __DIR__ . "/../frontend/public/uploads/output/" . $filename;
+$filePath = __DIR__ . "/../Profilein-Backend/uploads/output/" . $filename;
 
 if (!file_exists($filePath)) {
     http_response_code(404);
