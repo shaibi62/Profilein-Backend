@@ -39,9 +39,9 @@ try {
 
     $tempId = $_POST['id'] ?? null;
     if (!$tempId) throw new Exception("Template ID is required");
-
+   
     // Fetch current data
-    $query = "SELECT Title, Image, Template_Address FROM tbltemplate WHERE tmpId = ?";
+    $query = "SELECT * FROM tbltemplate WHERE tmpId = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $tempId);
     $stmt->execute();
@@ -49,12 +49,12 @@ try {
     if ($result->num_rows === 0) throw new Exception("Template not found");
     $currentData = $result->fetch_assoc();
     $stmt->close();
-
+    $FolderId = $currentData['FolderId'];
     $oldTitle = $currentData['Title'];
     $oldImage = $currentData['Image'];
     $oldTemplateURL = $currentData['Template_Address'];
 
-    $oldFolderName = sanitizeFolderName($oldTitle);
+    $oldFolderName = "Template_". $FolderId;
     $oldFolderPath = $templatesBasePath . $oldFolderName . '/';
 
     $title = $_POST['title'] ?? null;
@@ -126,7 +126,7 @@ try {
         // Delete old folder
         deleteFolder($oldFolderPath);
 
-        $templateFolderName = sanitizeFolderName($title);
+        $templateFolderName = "Template_". $FolderId;
         $templateDir = $templatesBasePath . $templateFolderName . '/';
 
         if (!file_exists($templatesBasePath)) mkdir($templatesBasePath, 0755, true);
@@ -179,18 +179,6 @@ try {
         $types .= "s";
     }
 
-    // Handle title rename (if title changed but zip not uploaded)
-    if ($title !== null && $title !== $oldTitle && !isset($_FILES['templateZip'])) {
-        $newFolderName = sanitizeFolderName($title);
-        $newFolderPath = $templatesBasePath . $newFolderName . '/';
-        if (is_dir($oldFolderPath)) {
-            rename($oldFolderPath, $newFolderPath);
-            $templateRelURL = "$baseURL/templates/$newFolderName/";
-            $fields[] = "Template_Address = ?";
-            $params[] = $templateRelURL;
-            $types .= "s";
-        }
-    }
 
     if (count($fields) === 0) {
         throw new Exception("No update fields provided.");

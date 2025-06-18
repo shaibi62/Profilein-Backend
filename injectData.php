@@ -157,6 +157,7 @@ foreach($projects as $proj)
         '{{phone}}' => $personal['Phone'] ?? '',
         '{{address}}' => $personal['Address'] ?? '',
         '{{about}}' => $personal['Tagline'] ?? '',
+        '{{Profile-Pic}}' => $personal['ProfilePic'] ?? '',
         '{{typed_items}}' => $skillNames,
         '{{skills}}' => $Allskills,
         '{{experience}}' => $skills['Experience'] ?? '90%',

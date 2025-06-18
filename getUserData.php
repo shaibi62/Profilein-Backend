@@ -32,7 +32,7 @@ try {
         ];
 
         // 1. Get personal info
-        $query = "SELECT `Name`, `Email`, `Phone`, `Address`, `Profession`, `Tagline` FROM `tblpersonalinfo` WHERE usrId = ?";
+        $query = "SELECT `Name`, `Email`, `Phone`, `Address`, `Profession`, `Tagline`, `ProfilePic` FROM `tblpersonalinfo` WHERE usrId = ?";
         $stmt = $conn->prepare($query);
         if (!$stmt) {
             throw new Exception("Prepare failed for personal info: " . $conn->error);
