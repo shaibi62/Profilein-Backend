@@ -12,7 +12,7 @@ ini_set('post_max_size', '20M');
 ini_set('max_execution_time', '300');
 
 // Update this if frontend public folder is moved
-$frontendPublicPath = 'C:/xampp/htdocs/Profilein-Backenduploads/';
+$frontendPublicPath = 'C:/xampp/htdocs/Profilein-Backend/uploads/';
 $templatesBasePath = $frontendPublicPath . 'templates/';
 $imagesBasePath = $frontendPublicPath . 'images/';
 $baseURL = 'http://localhost/Profilein-Backend/uploads';

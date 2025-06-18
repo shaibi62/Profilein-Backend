@@ -149,15 +149,6 @@ foreach($projects as $proj)
 
 
 
-
-
-
-
-
-
-
-
-
     // Prepare placeholders
     $data = [
         '{{Baseurl}}' => $BaseURL,
