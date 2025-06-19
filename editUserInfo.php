@@ -36,8 +36,8 @@ try {
 
     // Handle profile picture upload
     if (!empty($_FILES['profilePic']['name'])) {
-        $uploadDir = $_SERVER['DOCUMENT_ROOT'] . "/frontend/public/uploads/Profile_Pics/";
-        $relativeUrl = "http://localhost/frontend/public/uploads/Profile_Pics/";
+        $uploadDir = $_SERVER['DOCUMENT_ROOT'] . "/Profilein-Backend/uploads/Profile_Pics/";
+        $relativeUrl = "http://localhost/Profilein-Backend/uploads/Profile_Pics/";
         if (!file_exists($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
@@ -49,7 +49,7 @@ try {
         }
 
         $fileExt = pathinfo($_FILES['profilePic']['name'], PATHINFO_EXTENSION);
-        $fileName = uniqid('profile_') . '.' . $fileExt;
+        $fileName = 'profile-' . $userId  . '.'  . $fileExt;
         $fullPath = $uploadDir . $fileName;
         $profilePicUrl = $relativeUrl . $fileName;
 

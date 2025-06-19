@@ -12,17 +12,27 @@ ini_set('post_max_size', '20M');
 ini_set('max_execution_time', '300');
 
 // Update this if frontend public folder is moved
-$frontendPublicPath = 'C:/xampp/htdocs/frontend/public/uploads/';
+$frontendPublicPath = 'C:/xampp/htdocs/Profilein-Backend/uploads/';
 $templatesBasePath = $frontendPublicPath . 'templates/';
 $imagesBasePath = $frontendPublicPath . 'images/';
-$baseURL = 'http://localhost/frontend/public/uploads';
+$baseURL = 'http://localhost/Profilein-Backend/uploads';
 
-function sanitizeFolderName($string) {
-    $string = trim($string);
-    $string = preg_replace('/[^a-zA-Z0-9_-]/', '_', $string);
-    $string = preg_replace('/_+/', '_', $string);
-    return strlen($string) === 0 ? 'template' : trim($string, '_');
+
+$query = 'SELECT FolderId FROM `tbltemplate` ORDER BY `FolderId` DESC LIMIT 1';
+$result = $conn->query($query);
+
+$FId = null;
+if ($result && $result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $FId = $row['FolderId']+1;
 }
+else {
+    $FId = 1; // Start from 1 if no records exist
+}
+
+
+
+
 
 try {
     if (
@@ -38,7 +48,7 @@ try {
     $feature2 = $_POST['feature2'];
     $feature3 = $_POST['feature3'];
 
-    $templateFolderName = sanitizeFolderName($title);
+    $templateFolderName = 'Template-'. $FId;
     $templateDir = $templatesBasePath . $templateFolderName . '/';
 
     if (file_exists($templateDir)) {
@@ -144,15 +154,15 @@ if (!move_uploaded_file($previewImage['tmp_name'], $imagePath)) {
     }
     rmdir($tempExtractDir);
 
-    
+    $FolderId = $FId; // Use the FolderId from the query result    
     // === Save to Database ===
-    $stmt = $conn->prepare("INSERT INTO tbltemplate (Title, Category, Feature1, Feature2, Feature3, Image, Template_Address) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO tbltemplate (Title, Category, Feature1, Feature2, Feature3, Image, Template_Address, FolderId) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
     if (!$stmt) throw new Exception("DB prepare failed: " . $conn->error);
 
     $imageRelURL = "$baseURL/images/$imageFilename";
     $templateRelURL = "$baseURL/templates/$templateFolderName/";
 
-    $stmt->bind_param("sssssss", $title, $category, $feature1, $feature2, $feature3, $imageRelURL, $templateRelURL);
+    $stmt->bind_param("ssssssss", $title, $category, $feature1, $feature2, $feature3, $imageRelURL, $templateRelURL, $FolderId);
     if (!$stmt->execute()) throw new Exception("DB execute failed: " . $stmt->error);
 
     $stmt->close();

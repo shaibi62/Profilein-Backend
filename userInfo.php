@@ -50,7 +50,7 @@ try {
     $profilePicPath = '';
     $fileName = '';
     if (!empty($_FILES['profilePic']['name'])) {
-        $uploadDir = 'http://localhost/frontend/public/uploads/Profile_Pics/';
+        $uploadDir = 'http://localhost/Profilein-Backend/uploads/Profile_Pics/';
         if (!file_exists($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
@@ -64,7 +64,7 @@ try {
         }
         
         $fileExt = pathinfo($_FILES['profilePic']['name'], PATHINFO_EXTENSION);
-        $fileName = uniqid('profile_') . '.' . $fileExt;
+        $fileName = "Profile-" . $userId . '.' . $fileExt;;
         $profilePicPath = $uploadDir . $fileName;
         
         if (!move_uploaded_file($_FILES['profilePic']['tmp_name'], $profilePicPath)) {

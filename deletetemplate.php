@@ -9,14 +9,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $data->id;
 
     // Fetch image path and folder name first
-    $stmt = $conn->prepare("SELECT Image, Title FROM tbltemplate WHERE tmpId = ?");
+    $stmt = $conn->prepare("SELECT Image,Template_Address, Title FROM tbltemplate WHERE tmpId = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($row = $result->fetch_assoc()) {
-      $imagePath = 'C:/Users/dell/Desktop/ProfileIn/public/' . $row['Image'];
-      $folderPath = 'C:/Users/dell/Desktop/ProfileIn/public/Templates/' . sanitizeFolderName($row['Title']) . '/';
+      $imagePath = $row['Image'];
+      $folderPath = sanitizeFolderName($row['Title']);
 
       // Delete DB record
       $stmtDel = $conn->prepare("DELETE FROM tbltemplate WHERE tmpId = ?");
