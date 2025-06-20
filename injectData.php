@@ -24,6 +24,7 @@ function injectData($userId, $tempId) {
 
     // Fetch dynamic data
     $personal = fetchData($conn, "SELECT * FROM tblPersonalInfo WHERE usrId = ?", $userId)[0] ?? [];
+    $socials = fetchData($conn, "SELECT * FROM tblsocials WHERE usrId = ?", $userId)[0] ?? [];
     $education = fetchData($conn, "SELECT * FROM tbleducation WHERE usrId = ?", $userId);
     $skills = fetchData($conn, "SELECT * FROM tblskill WHERE usrId = ?", $userId);
     $services = fetchData($conn, "SELECT * FROM tblservice WHERE usrId = ?", $userId);
@@ -156,7 +157,7 @@ foreach($projects as $proj)
         '{{email}}' => $personal['Email'] ?? '',
         '{{phone}}' => $personal['Phone'] ?? '',
         '{{address}}' => $personal['Address'] ?? '',
-        '{{about}}' => $personal['Tagline'] ?? '',
+        '{{about}}' => $personal['AboutMe'] ?? '',
         '{{Profile-Pic}}' => $personal['ProfilePic'] ?? '',
         '{{typed_items}}' => $skillNames,
         '{{skills}}' => $Allskills,
@@ -165,14 +166,12 @@ foreach($projects as $proj)
         '{{education_items}}' => $Education ?? '',
         '{{resume_items}}' => $resumeItems ?? '',
         '{{service_items}}' => $service_item ?? '',
-        '{{clients_no}}' => "10 ",
-        '{{projects_no}}' => "10 ",
-        '{{support_hours}}' => "100 ",
         '{{project_items}}' => $project_item ,
-        '{{x_link}}' => "x.com" ?? '',
-        '{{fb_link}}' => "facebook.com" ,
-        '{{insta_link}}' => "instagram.com" ,
-        '{{linkedin_link}}' => "linkedin.com" 
+        '{{x_link}}' => $socials['xLink'] ?? '',
+        '{{fb_link}}' => $socials['fbLink'] ?? '' ,
+        '{{insta_link}}' => $socials['instaLink'] ?? '' ,
+        '{{linkedin_link}}' => $socials['linkedinLink'] ?? '', 
+        '{{github_link}}' => $socials['githubLink'] ?? '', 
     ];
 
     // Read template

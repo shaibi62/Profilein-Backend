@@ -23,6 +23,7 @@ try {
         // Prepare the response data structure
         $userData = [
             'personalInfo' => null,
+            'socials' => null,
             'education' => [],
             'certifications' => [],
             'skills' => [],
@@ -32,7 +33,7 @@ try {
         ];
 
         // 1. Get personal info
-        $query = "SELECT `Name`, `Email`, `Phone`, `Address`, `Profession`, `Tagline`, `ProfilePic` FROM `tblpersonalinfo` WHERE usrId = ?";
+        $query = "SELECT `Name`, `Email`, `Phone`, `Address`, `Profession`, `Tagline`, `ProfilePic`, AboutMe FROM `tblpersonalinfo` WHERE usrId = ?";
         $stmt = $conn->prepare($query);
         if (!$stmt) {
             throw new Exception("Prepare failed for personal info: " . $conn->error);
@@ -48,6 +49,25 @@ try {
             $userData['personalInfo'] = $result->fetch_assoc();
         }
         $stmt->close();
+
+        // 1. Get personal info
+        $query = "SELECT * FROM `tblsocials` WHERE usrId = ?";
+        $stmt = $conn->prepare($query);
+        if (!$stmt) {
+            throw new Exception("Prepare failed for social: " . $conn->error);
+        }
+        
+        $stmt->bind_param("s", $userId);
+        if (!$stmt->execute()) {
+            throw new Exception("Execute failed for social: " . $stmt->error);
+        }
+        
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $userData['socials'] = $result->fetch_assoc();
+        }
+        $stmt->close();
+
 
         // 2. Get education records
         $query = "SELECT * FROM tblEducation WHERE usrId = ?";

@@ -24,7 +24,13 @@ try {
     $address = isset($_POST['address']) ? trim($_POST['address']) : '';
     $profession = isset($_POST['profession']) ? trim($_POST['profession']) : '';
     $tagline = isset($_POST['tagline']) ? trim($_POST['tagline']) : '';
-    
+    $aboutMe = isset($_POST['aboutMe']) ? trim($_POST['aboutMe']) : '';
+    $x = isset($_POST['xLink']) ? trim($_POST['xLink']) : '';
+    $fb = isset($_POST['fbLink']) ? trim($_POST['fbLink']) : '';
+    $insta = isset($_POST['instaLink']) ? trim($_POST['instaLink']) : '';
+    $github = isset($_POST['githubLink']) ? trim($_POST['githubLink']) : '';
+    $linkedin = isset($_POST['linkedinLink']) ? trim($_POST['linkedinLink']) : '';
+
     // Decode JSON arrays with proper initialization
     $education = isset($_POST['education']) ? json_decode($_POST['education'], true) : [];
     $certifications = isset($_POST['certifications']) ? json_decode($_POST['certifications'], true) : [];
@@ -50,46 +56,52 @@ try {
     $profilePicPath = '';
     $fileName = '';
     if (!empty($_FILES['profilePic']['name'])) {
-        $uploadDir = 'http://localhost/Profilein-Backend/uploads/Profile_Pics/';
+        $uploadDir = __DIR__ . '/uploads/Profile_Pics/'; // Use server path
+        $publicURL = 'http://localhost/Profilein-Backend/uploads/Profile_Pics/'; // For saving into DB
+
         if (!file_exists($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
-        
+
         // Validate file type
         $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
         $fileType = $_FILES['profilePic']['type'];
-        
+
         if (!in_array($fileType, $allowedTypes)) {
             throw new Exception("Only JPG, PNG or GIF files are allowed");
         }
-        
+
         $fileExt = pathinfo($_FILES['profilePic']['name'], PATHINFO_EXTENSION);
-        $fileName = "Profile-" . $userId . '.' . $fileExt;;
-        $profilePicPath = $uploadDir . $fileName;
-        
-        if (!move_uploaded_file($_FILES['profilePic']['tmp_name'], $profilePicPath)) {
+        $fileName = "Profile-" . $userId . '.' . $fileExt;
+        $serverFilePath = $uploadDir . $fileName;
+        $profilePicPath = $publicURL . $fileName; // This goes into DB
+
+        if (!move_uploaded_file($_FILES['profilePic']['tmp_name'], $serverFilePath)) {
             throw new Exception("Failed to upload profile picture");
         }
+
     }
 
     // 1. Insert personal info
     $stmt = $conn->prepare("INSERT INTO tblPersonalinfo 
-                          (usrId, Name, Email, Phone, Address, Profession, Tagline, ProfilePic) 
-                          VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-    
+                          (usrId, Name, Email, Phone, Address, Profession, Tagline, ProfilePic, AboutMe) 
+                          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
     if (!$stmt) {
         throw new Exception("tblPersonalinfo Prepare failed: " . $conn->error);
     }
-    
+
     // Ensure all variables are properly initialized
     $phone = $phone ?: null;
     $address = $address ?: null;
     $profession = $profession ?: null;
     $tagline = $tagline ?: null;
     $fileName = $fileName ?: null;
-    
+    $aboutMe = $aboutMe ?: null;
+
     // Bind parameters
-    $bindResult = $stmt->bind_param("ssssssss", 
+    $bindResult = $stmt->bind_param(
+        "sssssssss",
         $userId,
         $name,
         $email,
@@ -97,16 +109,55 @@ try {
         $address,
         $profession,
         $tagline,
-        $profilePicPath
+        $profilePicPath,
+        $aboutMe
     );
-    
+
     if (!$bindResult) {
         throw new Exception("Bind failed: " . $stmt->error);
     }
-    
+
     if (!$stmt->execute()) {
         throw new Exception("Execute failed: " . $stmt->error);
     }
+
+
+    // 1. Insert personal info
+    $stmt = $conn->prepare("INSERT INTO tblsocials 
+                          (usrId, fbLink, instaLink, xLink, githubLink, linkedinLink) 
+                          VALUES (?, ?, ?, ?, ?, ?)");
+
+    if (!$stmt) {
+        throw new Exception("tblsocials Prepare failed: " . $conn->error);
+    }
+
+    // Ensure all variables are properly initialized
+    $x = $x ?: null;
+    $fb = $fb ?: null;
+    $insta = $insta ?: null;
+    $github = $github ?: null;
+    $linkedin = $linkedin ?: null;
+
+    // Bind parameters
+    $bindResult = $stmt->bind_param(
+        "ssssss",
+        $userId,
+        $fb,
+        $insta,
+        $x,
+        $github,
+        $linkedin
+    );
+
+    if (!$bindResult) {
+        throw new Exception("Bind failed: " . $stmt->error);
+    }
+
+    if (!$stmt->execute()) {
+        throw new Exception("Execute failed: " . $stmt->error);
+    }
+
+
 
     // 2. Insert education records
     foreach ($education as $edu) {
@@ -115,7 +166,7 @@ try {
         $grade = $edu['grade'] ?? '';
         $startYear = $edu['startYear'] ?? '';
         $endYear = $edu['endYear'] ?? '';
-        
+
         if (!empty($degree)) {
             $stmt = $conn->prepare("INSERT INTO tblEducation 
                                   (usrId, Degree_Name, Institution, Grades, Start_Year, Completion_Year) 
@@ -123,8 +174,9 @@ try {
             if (!$stmt) {
                 throw new Exception("tblEducation Prepare failed: " . $conn->error);
             }
-            
-            $stmt->bind_param("ssssss",
+
+            $stmt->bind_param(
+                "ssssss",
                 $userId,
                 $degree,
                 $institution,
@@ -143,7 +195,7 @@ try {
         $title = $certf['title'] ?? '';
         $institution = $certf['institution'] ?? '';
         $issueDate = $certf['issueDate'] ?? '';
-        
+
         if (!empty($title)) {
             $stmt = $conn->prepare("INSERT INTO tblCertification 
                                   (usrId, Title, Institution, issueDate) 
@@ -151,10 +203,11 @@ try {
             if (!$stmt) {
                 throw new Exception("tblCertification Prepare failed: " . $conn->error);
             }
-            
+
             $issueDate = !empty($issueDate) ? date('Y-m-d', strtotime($issueDate)) : null;
-            
-            $stmt->bind_param("ssss",
+
+            $stmt->bind_param(
+                "ssss",
                 $userId,
                 $title,
                 $institution,
@@ -170,7 +223,7 @@ try {
     foreach ($skills as $skill) {
         $title = $skill['title'] ?? '';
         $experience = $skill['experience'] ?? '';
-        
+
         if (!empty($title)) {
             $stmt = $conn->prepare("INSERT INTO tblSkill 
                                   (usrId, Title, Experience) 
@@ -178,8 +231,9 @@ try {
             if (!$stmt) {
                 throw new Exception("tblSkills Prepare failed: " . $conn->error);
             }
-            
-            $stmt->bind_param("sss",
+
+            $stmt->bind_param(
+                "sss",
                 $userId,
                 $title,
                 $experience
@@ -190,14 +244,14 @@ try {
         }
     }
 
-     // 3. Insert jobs records
+    // 3. Insert jobs records
     foreach ($jobs as $job) {
         $title = $job['title'] ?? '';
-        $company = $job['institution'] ?? '';
+        $company = $job['company'] ?? '';
         $description = $job['description'] ?? '';
         $startdate = $job['startdate'] ?? '';
         $enddate = $job['enddate'] ?? '';
-        
+
         if (!empty($title)) {
             $stmt = $conn->prepare("INSERT INTO tbljob 
                                   (usrId, Title, Company,Description, startDate, endDate) 
@@ -205,11 +259,12 @@ try {
             if (!$stmt) {
                 throw new Exception("tblCertification Prepare failed: " . $conn->error);
             }
-            
+
             $startdate = !empty($startdate) ? date('Y-m-d', strtotime($startdate)) : null;
             $enddate = !empty($enddate) ? date('Y-m-d', strtotime($enddate)) : null;
-            
-            $stmt->bind_param("ssssss",
+
+            $stmt->bind_param(
+                "ssssss",
                 $userId,
                 $title,
                 $company,
@@ -227,7 +282,7 @@ try {
     foreach ($services as $serv) {
         $title = $serv['title'] ?? '';
         $description = $serv['description'] ?? '';
-        
+
         if (!empty($title)) {
             $stmt = $conn->prepare("INSERT INTO tblservice 
                                   (usrId, Title, Description) 
@@ -235,9 +290,10 @@ try {
             if (!$stmt) {
                 throw new Exception("tblservice Prepare failed: " . $conn->error);
             }
-            
-            
-            $stmt->bind_param("sss",
+
+
+            $stmt->bind_param(
+                "sss",
                 $userId,
                 $title,
                 $description
@@ -248,13 +304,13 @@ try {
         }
     }
 
-   
+
     // 5. Insert projects records
     foreach ($projects as $project) {
         $title = $project['title'] ?? '';
         $description = $project['description'] ?? '';
         $link = $project['link'] ?? '';
-        
+
         if (!empty($title)) {
             $stmt = $conn->prepare("INSERT INTO tblProject 
                                   (usrId, Title, Description, Link) 
@@ -262,8 +318,9 @@ try {
             if (!$stmt) {
                 throw new Exception("tblProjects Prepare failed: " . $conn->error);
             }
-            
-            $stmt->bind_param("ssss",
+
+            $stmt->bind_param(
+                "ssss",
                 $userId,
                 $title,
                 $description,
@@ -281,12 +338,12 @@ try {
 
 } catch (Exception $e) {
     $conn->rollback();
-    
+
     // Delete uploaded file if transaction failed
     if (!empty($profilePicPath) && file_exists($profilePicPath)) {
         unlink($profilePicPath);
     }
-    
+
     http_response_code(500);
     $response['error'] = $e->getMessage();
 } finally {
