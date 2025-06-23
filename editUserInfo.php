@@ -21,6 +21,13 @@ try {
     $address = $_POST['address'] ?? '';
     $profession = $_POST['profession'] ?? '';
     $tagline = $_POST['tagline'] ?? '';
+    $AboutMe = $_POST['aboutMe'] ?? '';
+
+    $xLink = $_POST['xLink'] ?? '';
+    $fbLink = $_POST['fbLink'] ?? '';
+    $linkedinLink = $_POST['linkedinLink'] ?? '';
+    $instaLink = $_POST['instaLink'] ?? '';
+    $githubLink = $_POST['githubLink'] ?? '';
 
     // JSON fields
     $education = json_decode($_POST['education'] ?? '[]', true) ?: [];
@@ -65,9 +72,16 @@ try {
     }
 
     // Update personal info
-    $stmt = $conn->prepare("UPDATE tblPersonalinfo SET Name = ?, Email = ?, Phone = ?, Address = ?, Profession = ?, Tagline = ? WHERE usrId = ?");
+    $stmt = $conn->prepare("UPDATE tblPersonalinfo SET Name = ?, Email = ?, Phone = ?, Address = ?, Profession = ?, Tagline = ?, AboutMe = ? WHERE usrId = ?");
     if (!$stmt) throw new Exception("Prepare failed (personal info): " . $conn->error);
-    $stmt->bind_param("sssssss", $name, $email, $phone, $address, $profession, $tagline, $userId);
+    $stmt->bind_param("ssssssss", $name, $email, $phone, $address, $profession, $tagline, $AboutMe, $userId);
+    $stmt->execute();
+    $stmt->close();
+
+        // Update socials
+    $stmt = $conn->prepare("UPDATE tblsocials SET xLink = ?, fbLink = ?, linkedinLink = ?, instaLink = ?, githubLink = ? WHERE usrId = ?");
+    if (!$stmt) throw new Exception("Prepare failed (socials UPDATE): " . $conn->error);
+    $stmt->bind_param("ssssss", $xLink, $fbLink, $linkedinLink, $instaLink, $githubLink, $userId);
     $stmt->execute();
     $stmt->close();
 
@@ -79,53 +93,71 @@ try {
 
     // Re-insert updated education
     foreach ($education as $edu) {
+        if(!empty($edu['degree']))
+        {
         $stmt = $conn->prepare("INSERT INTO tblEducation (usrId, Degree_Name, Institution, Grades, Start_Year, Completion_Year) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("ssssss", $userId, $edu['degree'], $edu['institution'], $edu['grade'], $edu['startYear'], $edu['endYear']);
         $stmt->execute();
         $stmt->close();
+        }
     }
 
     // Certifications
     foreach ($certifications as $cert) {
+        if(!empty($cert['title']))
+        {
+        
         $issueDate = !empty($cert['issueDate']) ? date('Y-m-d', strtotime($cert['issueDate'])) : null;
         $stmt = $conn->prepare("INSERT INTO tblCertification (usrId, Title, Institution, issueDate) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("ssss", $userId, $cert['title'], $cert['institution'], $issueDate);
         $stmt->execute();
         $stmt->close();
+        }
     }
 
     // Skills
     foreach ($skills as $skill) {
+        if(!empty($skill['title']))
+        {
         $stmt = $conn->prepare("INSERT INTO tblSkill (usrId, Title, Experience) VALUES (?, ?, ?)");
         $stmt->bind_param("sss", $userId, $skill['title'], $skill['experience']);
         $stmt->execute();
         $stmt->close();
+        }
     }
 
     // Jobs
     foreach ($jobs as $job) {
+        if(!empty($job['title'])){
         $startDate = !empty($job['startdate']) ? date('Y-m-d', strtotime($job['startdate'])) : null;
         $endDate = !empty($job['enddate']) ? date('Y-m-d', strtotime($job['enddate'])) : null;
         $stmt = $conn->prepare("INSERT INTO tbljob (usrId, Title, Company, Description, startDate, endDate) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("ssssss", $userId, $job['title'], $job['company'], $job['description'], $startDate, $endDate);
         $stmt->execute();
         $stmt->close();
+        }
     }
 
     // Services
     foreach ($services as $serv) {
+        if(!empty($serv['title']))
+        {
         $stmt = $conn->prepare("INSERT INTO tblservice (usrId, Title, Description) VALUES (?, ?, ?)");
         $stmt->bind_param("sss", $userId, $serv['title'], $serv['description']);
         $stmt->execute();
         $stmt->close();
+        }
     }
 
     // Projects
     foreach ($projects as $proj) {
+        if(!empty($proj['title']))
+        {
         $stmt = $conn->prepare("INSERT INTO tblProject (usrId, Title, Description, Link) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("ssss", $userId, $proj['title'], $proj['description'], $proj['link']);
         $stmt->execute();
         $stmt->close();
+        }
     }
 
     $conn->commit();

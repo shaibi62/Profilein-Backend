@@ -50,24 +50,27 @@ try {
         }
         $stmt->close();
 
-        // 1. Get personal info
-        $query = "SELECT * FROM `tblsocials` WHERE usrId = ?";
-        $stmt = $conn->prepare($query);
-        if (!$stmt) {
-            throw new Exception("Prepare failed for social: " . $conn->error);
-        }
-        
-        $stmt->bind_param("s", $userId);
-        if (!$stmt->execute()) {
-            throw new Exception("Execute failed for social: " . $stmt->error);
-        }
-        
-        $result = $stmt->get_result();
-        if ($result->num_rows > 0) {
-            $userData['socials'] = $result->fetch_assoc();
-        }
-        $stmt->close();
+        // 1. Get social
+        // Get socials
+$query = "SELECT * FROM `tblsocials` WHERE usrId = ?";
+$stmt = $conn->prepare($query);
+if (!$stmt) {
+    throw new Exception("Prepare failed for social: " . $conn->error);
+}
 
+$stmt->bind_param("s", $userId);
+if (!$stmt->execute()) {
+    throw new Exception("Execute failed for social: " . $stmt->error);
+}
+
+$result = $stmt->get_result();
+error_log("Socials row count: " . $result->num_rows); // 🔍 Debug log
+
+if ($result->num_rows > 0) {
+    $userData['socials'] = $result->fetch_assoc();
+    error_log("Socials data: " . json_encode($userData['socials'])); // 🔍 Confirm what’s returned
+}
+$stmt->close();
 
         // 2. Get education records
         $query = "SELECT * FROM tblEducation WHERE usrId = ?";

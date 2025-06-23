@@ -122,7 +122,15 @@ try {
     }
 
 
-    // 1. Insert personal info
+    // Ensure all variables are properly initialized
+    $x = $x ?: null;
+    $fb = $fb ?: null;
+    $insta = $insta ?: null;
+    $github = $github ?: null;
+    $linkedin = $linkedin ?: null;
+    // 1. Insert social
+    if(empty($x) && empty($fb) && empty($insta) && empty($github) && empty($linkedin)) {
+    
     $stmt = $conn->prepare("INSERT INTO tblsocials 
                           (usrId, fbLink, instaLink, xLink, githubLink, linkedinLink) 
                           VALUES (?, ?, ?, ?, ?, ?)");
@@ -131,12 +139,6 @@ try {
         throw new Exception("tblsocials Prepare failed: " . $conn->error);
     }
 
-    // Ensure all variables are properly initialized
-    $x = $x ?: null;
-    $fb = $fb ?: null;
-    $insta = $insta ?: null;
-    $github = $github ?: null;
-    $linkedin = $linkedin ?: null;
 
     // Bind parameters
     $bindResult = $stmt->bind_param(
@@ -189,7 +191,7 @@ try {
             }
         }
     }
-
+    }
     // 3. Insert certification records
     foreach ($certifications as $certf) {
         $title = $certf['title'] ?? '';
