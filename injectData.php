@@ -1,7 +1,7 @@
 <?php
 
 include 'origins.php';
-header("Content-Type: application/json");
+header(header: "Content-Type: application/json");
 
 function injectData($userId, $tempId) {
     include 'dbConnect.php';
@@ -156,8 +156,9 @@ foreach($projects as $proj)
         '{{name}}' => $personal['Name'] ?? '',
         '{{email}}' => $personal['Email'] ?? '',
         '{{phone}}' => $personal['Phone'] ?? '',
-        '{{address}}' => $personal['Address'] ?? '',
         '{{about}}' => $personal['AboutMe'] ?? '',
+        '{{address}}' => $personal['Address'] ?? '',
+        '{{profession}}' => $personal['Profession'] ?? '',
         '{{Profile-Pic}}' => $personal['ProfilePic'] ?? '',
         '{{typed_items}}' => $skillNames,
         '{{skills}}' => $Allskills,
