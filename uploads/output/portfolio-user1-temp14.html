@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Muhammad Shoaib - Portfolio</title>
+  <meta name="description" content="{{meta_description}}">
+  <meta name="keywords" content="{{meta_keywords}}">
+
+  <!-- Favicons -->
+  <link href="http://localhost/Profilein-Backend/uploads/templates/Template-2/assets/img/favicon.png" rel="icon">
+  <link href="http://localhost/Profilein-Backend/uploads/templates/Template-2/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Quicksand&family=Domine&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="http://localhost/Profilein-Backend/uploads/templates/Template-2/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="http://localhost/Profilein-Backend/uploads/templates/Template-2/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="http://localhost/Profilein-Backend/uploads/templates/Template-2/assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="http://localhost/Profilein-Backend/uploads/templates/Template-2/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="http://localhost/Profilein-Backend/uploads/templates/Template-2/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="http://localhost/Profilein-Backend/uploads/templates/Template-2/assets/css/main.css" rel="stylesheet">
+</head>
+
+<body class="index-page">
+
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
+      <a href="#" class="logo d-flex align-items-center me-auto me-xl-0">
+        <h1 class="sitename">Muhammad Shoaib</h1>
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="#hero" class="active">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#resume">Resume</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+      <div class="header-social-links">
+        {{social_links}}
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- Hero Section -->
+    <section id="hero" class="hero section dark-background">
+      <img src="http://localhost/Profilein-Backend/uploads/templates/Template-2/assets/img/hero-bg.jpg" alt="" data-aos="fade-in">
+      <div class="container text-center" data-aos="fade-up" data-aos-delay="100">
+        <h2>Muhammad Shoaib</h2>
+        <p>Software Engineer</p>
+        <a href="#about" class="btn-scroll" title="Scroll Down"><i class="bi bi-chevron-down"></i></a>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about section">
+      <div class="container section-title" data-aos="fade-up">
+        <span class="description-title">About me</span>
+        <h2>About Me</h2>
+        <p>{{aboutMe}}</p>
+      </div>
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row gy-4 justify-content-center">
+          <div class="col-lg-4">
+            <img src="{{profilePic}}" class="img-fluid" alt="">
+          </div>
+          <div class="col-lg-8 content">
+            <h2>Software Engineer</h2>
+            <p class="fst-italic py-3">{{short_bio}}</p>
+            <div class="row">
+              <div class="col-lg-6">
+                <ul>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Birthday:</strong> <span>{{dob}}</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Website:</strong> <span>{{website}}</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Phone:</strong> <span>03151485465</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>City:</strong> <span>{{city}}</span></li>
+                </ul>
+              </div>
+              <div class="col-lg-6">
+                <ul>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Age:</strong> <span>{{age}}</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Degree:</strong> <span>{{degree}}</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Email:</strong> <span>mshoaibarid@gmail.com</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Freelance:</strong> <span>{{freelance}}</span></li>
+                </ul>
+              </div>
+            </div>
+            <p class="py-3">{{about_paragraph}}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Resume Section -->
+    <section id="resume" class="resume section">
+      <div class="container section-title" data-aos="fade-up">
+        <span class="description-title">My Resume</span>
+        <h2>My Resume</h2>
+        <p>{{resume_intro}}</p>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+            <h3 class="resume-title">Summary</h3>
+            <div class="resume-item pb-0">
+              <h4>Muhammad Shoaib</h4>
+              <p><em>{{summary}}</em></p>
+              <ul>
+                <li>Phalia, Mandi Bahauddin, Punjab, Pakistan</li>
+                <li>03151485465</li>
+                <li>mshoaibarid@gmail.com</li>
+              </ul>
+            </div>
+            <h3 class="resume-title">Education</h3>
+            
+  
+    <div class="resume-item">
+                <h4>Software Engineering</h4>
+                <h5>[2021-09-01] / [2025-07-01]</h5>
+                <p><em>PMAS-AAUR </em></p>
+                <ul>
+                  <li>A+</li>
+                </ul>
+              </div>
+  
+    <div class="resume-item">
+                <h4>Intermediate</h4>
+                <h5>[2019-08-01] / [2021-08-01]</h5>
+                <p><em>Aspire College Phalia </em></p>
+                <ul>
+                  <li>B</li>
+                </ul>
+              </div>
+  
+    <div class="resume-item">
+                <h4>Matric</h4>
+                <h5>[2017-04-01] / [2019-07-15]</h5>
+                <p><em>HSS Qadirabad </em></p>
+                <ul>
+                  <li>A+</li>
+                </ul>
+              </div>
+          </div>
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+            <h3 class="resume-title">Professional Experience</h3>
+            {{job_items}}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services section">
+      <div class="container section-title" data-aos="fade-up">
+        <span class="description-title">My Services</span>
+        <h2>My Services</h2>
+        <p>{{services_intro}}</p>
+      </div>
+      <div class="container">
+        <div class="row gy-4">
+          
+      <div class="service-item col-lg-3 col-md-6" style="margin:50px">
+                <div class="icon">
+                  <i class="bi bi-briefcase"></i>
+                </div>
+                <a href="#" class="stretched-link">
+                  <h3>Graphic Designer</h3>
+                </a>
+                <p>I will serve your business as graphic designer</p>
+              </div>
+      <div class="service-item col-lg-3 col-md-6" style="margin:50px">
+                <div class="icon">
+                  <i class="bi bi-briefcase"></i>
+                </div>
+                <a href="#" class="stretched-link">
+                  <h3>Video Editor</h3>
+                </a>
+                <p>I will serve your business as Video Editor</p>
+              </div>
+      <div class="service-item col-lg-3 col-md-6" style="margin:50px">
+                <div class="icon">
+                  <i class="bi bi-briefcase"></i>
+                </div>
+                <a href="#" class="stretched-link">
+                  <h3>Web Developer</h3>
+                </a>
+                <p>I will work with you as Web Developer</p>
+              </div>
+      <div class="service-item col-lg-3 col-md-6" style="margin:50px">
+                <div class="icon">
+                  <i class="bi bi-briefcase"></i>
+                </div>
+                <a href="#" class="stretched-link">
+                  <h3>Database Administrator</h3>
+                </a>
+                <p>I will serve your business as Database Admin</p>
+              </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Portfolio / Gallery Section -->
+    <section id="portfolio" class="gallery section">
+      <div class="container section-title" data-aos="fade-up">
+        <span class="description-title">Portfolio</span>
+        <h2>Portfolio</h2>
+        <p>{{project_intro}}</p>
+      </div>
+      <div class="container-fluid" data-aos="fade-up" data-aos-delay="100">
+        <div class="row g-0">
+          
+    <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-product"
+              >
+                <img
+                  src="http://localhost/Profilein-Backend/uploads/templates/Template-2/assets/img/portfolio/app-1.jpg"
+                  class="img-fluid"
+                  alt=""
+                />
+                <div class="portfolio-info">
+                  <h4>ProfileIn</h4>
+                  <p>A web based platform help individuals to make portfolios</p>
+                  
+                  <a
+                    href="https://github.com/shaibi62/ProfileIn"
+                    title="More Details"
+                    class="details-link"
+                    ><i class="bi bi-link-45deg"></i
+                  ></a>
+                </div>
+              </div>
+    
+    <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-product"
+              >
+                <img
+                  src="http://localhost/Profilein-Backend/uploads/templates/Template-2/assets/img/portfolio/app-1.jpg"
+                  class="img-fluid"
+                  alt=""
+                />
+                <div class="portfolio-info">
+                  <h4>ProfileIn platform</h4>
+                  <p>A web based portfolio builder platform</p>
+                  
+                  <a
+                    href="https://profileIn.vercel.app"
+                    title="More Details"
+                    class="details-link"
+                    ><i class="bi bi-link-45deg"></i
+                  ></a>
+                </div>
+              </div>
+    
+    <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-product"
+              >
+                <img
+                  src="http://localhost/Profilein-Backend/uploads/templates/Template-2/assets/img/portfolio/app-1.jpg"
+                  class="img-fluid"
+                  alt=""
+                />
+                <div class="portfolio-info">
+                  <h4>ProfileIn.online</h4>
+                  <p>A web based portfolio builder platform</p>
+                  
+                  <a
+                    href="https://github.com/shaibi62/ProfileIn-Backend"
+                    title="More Details"
+                    class="details-link"
+                    ><i class="bi bi-link-45deg"></i
+                  ></a>
+                </div>
+              </div>
+    
+    <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-product"
+              >
+                <img
+                  src="http://localhost/Profilein-Backend/uploads/templates/Template-2/assets/img/portfolio/app-1.jpg"
+                  class="img-fluid"
+                  alt=""
+                />
+                <div class="portfolio-info">
+                  <h4>ProfileIn.com</h4>
+                  <p>A web based portfolio builder platform</p>
+                  
+                  <a
+                    href="https://github.com/shaibi62/ProfileIn"
+                    title="More Details"
+                    class="details-link"
+                    ><i class="bi bi-link-45deg"></i
+                  ></a>
+                </div>
+              </div>
+    
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact section">
+      <div class="container section-title" data-aos="fade-up">
+        <span class="description-title">Contact</span>
+        <h2>Contact</h2>
+        <p>{{contact_intro}}</p>
+      </div>
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row gy-4" data-aos="fade-up" data-aos-delay="200">
+          <div class="col-lg-4">
+            <div class="info-item d-flex flex-column justify-content-center align-items-center">
+              <i class="bi bi-geo-alt"></i>
+              <h3>Address</h3>
+              <p>Phalia, Mandi Bahauddin, Punjab, Pakistan</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="info-item d-flex flex-column justify-content-center align-items-center info-item-borders">
+              <i class="bi bi-telephone"></i>
+              <h3>Call Us</h3>
+              <p>03151485465</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="info-item d-flex flex-column justify-content-center align-items-center">
+              <i class="bi bi-envelope"></i>
+              <h3>Email Us</h3>
+              <p>mshoaibarid@gmail.com</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="footer" class="footer position-relative dark-background">
+    <div class="container">
+      <h3 class="sitename">Muhammad Shoaib</h3>
+      <p>{{footer_desc}}</p>
+      <div class="social-links d-flex justify-content-center">
+        {{social_links}}
+      </div>
+      <div class="container">
+        <div class="copyright">
+          <span>Copyright</span> <strong class="px-1 sitename">Muhammad Shoaib</strong> <span>All Rights Reserved</span>
+        </div>
+        <div class="credits">
+          Designed by <a href="https://profilein.online/">ProfileIn</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
+    <i class="bi bi-arrow-up-short"></i>
+  </a>
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="http://localhost/Profilein-Backend/uploads/templates/Template-2/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="http://localhost/Profilein-Backend/uploads/templates/Template-2/assets/vendor/php-email-form/validate.js"></script>
+  <script src="http://localhost/Profilein-Backend/uploads/templates/Template-2/assets/vendor/aos/aos.js"></script>
+  <script src="http://localhost/Profilein-Backend/uploads/templates/Template-2/assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="http://localhost/Profilein-Backend/uploads/templates/Template-2/assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="http://localhost/Profilein-Backend/uploads/templates/Template-2/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+  <script src="http://localhost/Profilein-Backend/uploads/templates/Template-2/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+
+  <!-- Main JS File -->
+  <script src="http://localhost/Profilein-Backend/uploads/templates/Template-2/assets/js/main.js"></script>
+</body>
+</html>

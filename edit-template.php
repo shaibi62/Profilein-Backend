@@ -54,7 +54,7 @@ try {
     $oldImage = $currentData['Image'];
     $oldTemplateURL = $currentData['Template_Address'];
 
-    $oldFolderName = "Template_". $FolderId;
+    $oldFolderName = "Template-". $FolderId;
     $oldFolderPath = $templatesBasePath . $oldFolderName . '/';
 
     $title = $_POST['title'] ?? null;
@@ -126,7 +126,7 @@ try {
         // Delete old folder
         deleteFolder($oldFolderPath);
 
-        $templateFolderName = "Template_". $FolderId;
+        $templateFolderName = "Template-". $FolderId;
         $templateDir = $templatesBasePath . $templateFolderName . '/';
 
         if (!file_exists($templatesBasePath)) mkdir($templatesBasePath, 0755, true);
