@@ -12,17 +12,14 @@ include 'dbConnect.php';
 
 $category = mysqli_real_escape_string($conn, $_GET['category']);
 
-$query = "SELECT Title, tmpId FROM tbltemplate WHERE category = '$category'";
+$query = "SELECT * FROM tbltemplate WHERE category = '$category'";
 $result = mysqli_query($conn, $query);
 
 $response = [];
 
 if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
-        $response[] = [
-            'name' => $row['Title'],
-            'id' => $row['tmpId'] // use unique ID here
-        ];
+        $response[] = $row;
     }
     echo json_encode(['success' => true, 'templates' => $response]);
 } else {
